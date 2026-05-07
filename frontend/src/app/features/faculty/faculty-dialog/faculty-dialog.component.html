@@ -1,0 +1,74 @@
+<div class="p-0 overflow-hidden rounded-[32px] bg-white border border-slate-200 shadow-2xl w-[500px]">
+  <!-- Premium Header -->
+  <header class="bg-slate-900 p-8 flex justify-between items-center text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-24 -mt-24 blur-3xl"></div>
+    <div class="relative z-10">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+        <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Staff Records</span>
+      </div>
+      <h2 class="text-3xl font-black tracking-tight leading-none">
+        {{ data.id ? 'Modify Faculty' : 'Add Faculty' }}
+      </h2>
+    </div>
+    <mat-icon class="opacity-30 !text-5xl !w-12 !h-12 text-indigo-400">person_add_alt</mat-icon>
+  </header>
+
+  <mat-dialog-content class="!p-8 !m-0">
+    <form [formGroup]="form" class="space-y-8">
+      
+      <mat-form-field appearance="outline" class="w-full h-20">
+        <mat-label>Full Legal Name</mat-label>
+        <input matInput formControlName="fullName" placeholder="e.g. Dr. Jane Smith">
+        <mat-icon matSuffix class="text-slate-300">person</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full h-20">
+        <mat-label>Professional Email Address</mat-label>
+        <input matInput formControlName="email" placeholder="faculty@campuscore.edu">
+        <mat-icon matSuffix class="text-slate-300">alternate_email</mat-icon>
+      </mat-form-field>
+
+      <div class="grid grid-cols-2 gap-6">
+        <mat-form-field appearance="outline" class="w-full h-20">
+          <mat-label>Designation</mat-label>
+          <mat-select formControlName="designation">
+            <mat-option value="Professor">Professor</mat-option>
+            <mat-option value="Associate Professor">Associate Professor</mat-option>
+            <mat-option value="Assistant Professor">Assistant Professor</mat-option>
+            <mat-option value="Lecturer">Lecturer</mat-option>
+          </mat-select>
+          <mat-icon matSuffix class="text-slate-300">work_outline</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full h-20">
+          <mat-label>Department</mat-label>
+          <mat-select formControlName="departmentId">
+            <mat-option *ngFor="let dept of departments" [value]="dept.id">
+              {{dept.name}}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix class="text-slate-300">account_balance</mat-icon>
+        </mat-form-field>
+      </div>
+      
+    </form>
+  </mat-dialog-content>
+
+  <!-- Premium Footer -->
+  <mat-dialog-actions class="!p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+    <button mat-button 
+            class="!rounded-2xl font-bold h-12 px-6 text-slate-500 hover:bg-slate-200 transition-all active:scale-95" 
+            (click)="onCancel()">
+      Cancel
+    </button>
+    <button mat-flat-button 
+            color="primary" 
+            class="!rounded-2xl font-black h-12 px-10 shadow-xl shadow-blue-500/30 transition-all active:scale-95" 
+            [disabled]="form.invalid" 
+            (click)="onSave()">
+      {{ data.id ? 'Save Changes' : 'Register Staff' }}
+    </button>
+  </mat-dialog-actions>
+</div>
+

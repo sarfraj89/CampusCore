@@ -1,0 +1,1 @@
+ALTER TABLE faculty ADD COLUMN designation VARCHAR(255);

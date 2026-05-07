@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface ExamResultRepository extends JpaRepository<ExamResult, UUID> {
     List<ExamResult> findByStudentId(UUID studentId);
     List<ExamResult> findBySemesterAndSubjectIdAndAcademicYear(Integer semester, UUID subjectId, String academicYear);
+    List<ExamResult> findBySubjectIdAndSemester(UUID subjectId, Integer semester);
 }

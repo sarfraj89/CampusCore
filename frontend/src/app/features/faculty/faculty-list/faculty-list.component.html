@@ -1,0 +1,114 @@
+<div class="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+  <!-- Page Header -->
+  <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-black text-slate-900 tracking-tight">Faculty Directory</h1>
+      <p class="text-slate-500 font-medium mt-1">Manage teaching staff, assignments, and departmental roles.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button mat-flat-button color="primary" class="!rounded-xl font-bold h-11 px-6 shadow-lg shadow-blue-500/20" (click)="openDialog()">
+        <mat-icon class="mr-2">person_add_alt</mat-icon> Add Faculty
+      </button>
+    </div>
+  </header>
+
+  <!-- Content Card -->
+  <div class="bg-white rounded-[32px] shadow-xl border border-slate-100 overflow-hidden relative">
+    <!-- Table Header / Search Area -->
+    <div class="p-6 bg-slate-50/50 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="relative w-full md:w-96">
+        <mat-icon class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</mat-icon>
+        <input type="text" 
+               placeholder="Search by name, email, or designation..." 
+               class="w-full bg-white border border-slate-200 rounded-2xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-sm font-medium text-slate-700">
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 px-3 py-1 bg-indigo-50 rounded-full border border-indigo-100">
+          <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+          <span class="text-[10px] font-bold text-indigo-700 uppercase tracking-widest">{{ faculty.length }} Faculty Members</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div *ngIf="loading" class="absolute inset-0 bg-white/70 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center gap-4">
+      <mat-progress-spinner mode="indeterminate" color="primary" [diameter]="48"></mat-progress-spinner>
+      <span class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] animate-pulse">Syncing Directory...</span>
+    </div>
+
+    <!-- Table Area -->
+    <div class="overflow-x-auto custom-scrollbar">
+      <table mat-table [dataSource]="faculty" class="w-full">
+        <!-- Name Column -->
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef> Faculty Member </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-xs font-black text-slate-500 border border-slate-200 shadow-sm overflow-hidden">
+                <mat-icon class="!text-lg">person</mat-icon>
+              </div>
+              <div class="flex flex-col">
+                <span class="font-bold text-slate-700 leading-none mb-1">{{element.fullName}}</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{{element.designation}}</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Contact Info </th>
+          <td mat-cell *matCellDef="let element"> 
+            <div class="flex flex-col">
+              <span class="text-sm font-medium text-slate-600">{{element.email}}</span>
+              <span class="text-[10px] text-slate-400">Institutional Email</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Department Column -->
+        <ng-container matColumnDef="department">
+          <th mat-header-cell *matHeaderCellDef> Department </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-100">
+              {{element.departmentName}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="text-right pr-6"> Actions </th>
+          <td mat-cell *matCellDef="let element" class="text-right pr-6">
+            <div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button mat-icon-button class="!text-slate-400 hover:bg-slate-100" (click)="openDialog(element)" matTooltip="Edit Profile">
+                <mat-icon>manage_accounts</mat-icon>
+              </button>
+              <button mat-icon-button class="!text-rose-400 hover:bg-rose-50" (click)="deleteFaculty(element.id!)" matTooltip="Remove Faculty">
+                <mat-icon>person_remove</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="group"></tr>
+      </table>
+      
+      <!-- Empty State -->
+      <div *ngIf="faculty.length === 0 && !loading" class="p-20 text-center bg-slate-50/30">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 mx-auto mb-6">
+          <mat-icon class="!text-4xl text-slate-200">supervisor_account</mat-icon>
+        </div>
+        <h4 class="text-xl font-bold text-slate-800 mb-2">No faculty members found</h4>
+        <p class="text-slate-500 max-w-xs mx-auto text-sm leading-relaxed mb-8">
+          Build your teaching team by adding faculty members and assigning them to departments.
+        </p>
+        <button mat-flat-button color="primary" class="!rounded-xl font-bold h-11 px-8" (click)="openDialog()">
+          Add First Member
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

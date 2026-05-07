@@ -1,0 +1,103 @@
+<div class="flex flex-col h-[calc(100vh-120px)] animate-in fade-in slide-in-from-bottom-4 duration-700">
+  <!-- AI Chat Header -->
+  <div class="mb-8 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
+        <mat-icon class="!text-3xl">psychology</mat-icon>
+      </div>
+      <div>
+        <h1 class="text-3xl font-black text-slate-900 tracking-tight">AI Academic Assistant</h1>
+        <div class="flex items-center gap-2 mt-1">
+          <span class="flex h-2 w-2 rounded-full bg-emerald-500"></span>
+          <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Neural Engine Online</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hidden md:flex items-center gap-2 bg-white px-4 py-2 rounded-2xl border border-slate-100 shadow-sm">
+      <mat-icon class="text-blue-500 !text-sm !w-4 !h-4">auto_awesome</mat-icon>
+      <span class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">GPT-4o Mini Powered</span>
+    </div>
+  </div>
+
+  <!-- Chat Container -->
+  <div class="flex-grow flex flex-col bg-white rounded-[32px] shadow-xl border border-slate-100 overflow-hidden relative">
+    <!-- Messages Area -->
+    <div class="flex-grow overflow-y-auto p-8 bg-slate-50/30 space-y-6 custom-scrollbar" #scrollContainer>
+      <div *ngFor="let msg of messages" 
+           [ngClass]="msg.sender === 'user' ? 'flex justify-end' : 'flex justify-start'"
+           class="group animate-in fade-in slide-in-from-bottom-2 duration-500">
+        
+        <div class="flex flex-col max-w-[75%] gap-2">
+          <div [ngClass]="msg.sender === 'user' 
+                ? 'bg-blue-600 text-white rounded-3xl rounded-tr-none shadow-lg shadow-blue-500/20 px-6 py-4' 
+                : 'bg-white text-slate-700 rounded-3xl rounded-tl-none border border-slate-100 shadow-sm px-6 py-4'"
+               class="relative">
+            <div class="whitespace-pre-wrap leading-relaxed text-[15px] font-medium">{{ msg.text }}</div>
+            
+            <!-- AI Avatar for AI messages -->
+            <div *ngIf="msg.sender === 'ai'" class="absolute -left-10 bottom-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 border border-indigo-200 shadow-sm overflow-hidden">
+              <mat-icon class="!text-xs">smart_toy</mat-icon>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-2 px-2" [ngClass]="msg.sender === 'user' ? 'justify-end' : 'justify-start'">
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ msg.sender }} • {{ msg.time | date:'shortTime' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thinking Indicator -->
+      <div *ngIf="loading" class="flex justify-start animate-in fade-in duration-300">
+        <div class="bg-white px-6 py-4 rounded-3xl rounded-tl-none shadow-sm border border-slate-100 flex items-center gap-4">
+          <div class="flex gap-1">
+            <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+            <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+            <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce"></span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Assistant is analyzing campus data...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="p-8 bg-white border-t border-slate-50">
+      <div class="relative max-w-4xl mx-auto flex items-end gap-4">
+        <div class="flex-grow relative group">
+          <textarea matInput 
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    [(ngModel)]="userInput" 
+                    (keyup.enter)="!loading && userInput.trim() && sendMessage()"
+                    placeholder="Ask about student trends, performance predictions, or department status..." 
+                    class="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-700 font-medium placeholder:text-slate-400 custom-scrollbar"
+                    [disabled]="loading"></textarea>
+          
+          <div class="absolute right-4 bottom-4 flex items-center gap-2">
+            <mat-icon class="text-slate-300 !text-lg !w-5 !h-5">bolt</mat-icon>
+          </div>
+        </div>
+        
+        <button (click)="sendMessage()" 
+                [disabled]="!userInput.trim() || loading"
+                class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-blue-500/30 hover:bg-blue-700 hover:-translate-y-1 active:translate-y-0 disabled:bg-slate-200 disabled:shadow-none transition-all duration-200 shrink-0">
+          <mat-icon *ngIf="!loading">send</mat-icon>
+          <mat-progress-spinner *ngIf="loading" mode="indeterminate" [diameter]="24" class="!text-white"></mat-progress-spinner>
+        </button>
+      </div>
+      
+      <div class="mt-4 flex justify-center gap-6">
+        <div class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-help" matTooltip="AI has read access to Departments, Students, and Exams">
+          <mat-icon class="!text-xs !w-4 !h-4 text-slate-500">verified_user</mat-icon>
+          <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Campus Data Integrated</span>
+        </div>
+        <div class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-help" matTooltip="Insights are generated in real-time based on your query">
+          <mat-icon class="!text-xs !w-4 !h-4 text-slate-500">insights</mat-icon>
+          <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Real-time Analysis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,211 @@
+<div class="space-y-8 animate-in fade-in duration-700">
+  <!-- Welcome Section -->
+  <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight" *ngIf="authService.currentUser$ | async as user">
+        Welcome back, {{ user.fullName.split(' ')[0] }}! 👋
+      </h1>
+      <p class="text-slate-500 font-medium mt-1">Here's what's happening across your campus today.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button mat-stroked-button class="!rounded-xl !border-slate-200 !text-slate-600 font-semibold h-11 px-6">
+        <mat-icon class="mr-2">download</mat-icon> Export Report
+      </button>
+      <button mat-flat-button color="primary" class="!rounded-xl font-bold h-11 px-6 shadow-lg shadow-blue-500/20">
+        <mat-icon class="mr-2">add</mat-icon> Add Student
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <div class="relative overflow-hidden rounded-[32px] bg-indigo-950 text-white p-8 md:p-12 shadow-2xl">
+    <!-- Decorative background elements -->
+    <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-600/20 to-transparent"></div>
+    <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
+    
+    <div class="relative z-10 max-w-2xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 rounded-full border border-blue-400/20 mb-6">
+        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-blue-200">System Analytics v2.4</span>
+      </div>
+      <h2 class="text-4xl md:text-5xl font-black mb-4 leading-tight tracking-tighter">
+        Smart Campus <br/><span class="text-blue-400">Intelligence Portal.</span>
+      </h2>
+      <p class="text-indigo-100 text-lg opacity-80 leading-relaxed mb-8">
+        Harness the power of AI to predict student performance, automate attendance tracking, and streamline departmental operations.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors cursor-pointer">
+          <div class="p-2 bg-blue-500 rounded-lg">
+            <mat-icon class="!text-white">auto_awesome</mat-icon>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">AI Prediction</p>
+            <p class="text-sm font-semibold">94% Accuracy Rate</p>
+          </div>
+        </div>
+        <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors cursor-pointer">
+          <div class="p-2 bg-indigo-500 rounded-lg">
+            <mat-icon class="!text-white">speed</mat-icon>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-indigo-300 uppercase tracking-widest">Processing Speed</p>
+            <p class="text-sm font-semibold">Real-time Sync</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <mat-icon class="absolute right-12 bottom-12 !text-[180px] !h-[180px] !w-[180px] text-white/5 -rotate-12 hidden lg:block">account_balance</mat-icon>
+  </div>
+
+  <!-- Statistics Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Total Students -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+      <div class="flex justify-between items-start mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm">
+          <mat-icon>people_alt</mat-icon>
+        </div>
+        <div class="flex items-center gap-1 text-emerald-500 font-bold text-xs bg-emerald-50 px-2 py-1 rounded-full">
+          <mat-icon class="!text-sm !w-4 !h-4">arrow_upward</mat-icon> 12%
+        </div>
+      </div>
+      <p class="text-slate-500 font-bold text-xs uppercase tracking-widest">Total Students</p>
+      <h3 class="text-3xl font-black text-slate-900 mt-1">1,482</h3>
+      <p class="text-[10px] text-slate-400 mt-2 font-medium">84 new registrations this month</p>
+    </div>
+
+    <!-- Departments -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+      <div class="flex justify-between items-start mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
+          <mat-icon>account_tree</mat-icon>
+        </div>
+        <div class="text-slate-400 font-bold text-xs bg-slate-50 px-2 py-1 rounded-full">
+          Stable
+        </div>
+      </div>
+      <p class="text-slate-500 font-bold text-xs uppercase tracking-widest">Departments</p>
+      <h3 class="text-3xl font-black text-slate-900 mt-1">12</h3>
+      <p class="text-[10px] text-slate-400 mt-2 font-medium">Fully staffed & operational</p>
+    </div>
+
+    <!-- Attendance -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+      <div class="flex justify-between items-start mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-sm">
+          <mat-icon>fact_check</mat-icon>
+        </div>
+        <div class="flex items-center gap-1 text-emerald-500 font-bold text-xs bg-emerald-50 px-2 py-1 rounded-full">
+          <mat-icon class="!text-sm !w-4 !h-4">arrow_upward</mat-icon> 4%
+        </div>
+      </div>
+      <p class="text-slate-500 font-bold text-xs uppercase tracking-widest">Avg Attendance</p>
+      <h3 class="text-3xl font-black text-slate-900 mt-1">94.2%</h3>
+      <p class="text-[10px] text-slate-400 mt-2 font-medium">Above university average (88%)</p>
+    </div>
+
+    <!-- GP Score -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+      <div class="flex justify-between items-start mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-sm">
+          <mat-icon>grade</mat-icon>
+        </div>
+        <div class="flex items-center gap-1 text-rose-500 font-bold text-xs bg-rose-50 px-2 py-1 rounded-full">
+          <mat-icon class="!text-sm !w-4 !h-4">arrow_downward</mat-icon> 0.5%
+        </div>
+      </div>
+      <p class="text-slate-500 font-bold text-xs uppercase tracking-widest">Avg GPA</p>
+      <h3 class="text-3xl font-black text-slate-900 mt-1">3.74</h3>
+      <p class="text-[10px] text-slate-400 mt-2 font-medium">Semester-over-semester change</p>
+    </div>
+  </div>
+
+  <!-- Bottom Sections -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12">
+    <!-- Performance Insights -->
+    <div class="lg:col-span-2 bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="p-6 border-b border-slate-50 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-slate-100 rounded-lg">
+            <mat-icon class="text-slate-600">insights</mat-icon>
+          </div>
+          <h3 class="text-lg font-extrabold text-slate-800 m-0">Institutional Insights</h3>
+        </div>
+        <button mat-button class="!text-blue-600 font-bold uppercase tracking-widest text-xs">Full Analysis</button>
+      </div>
+      
+      <div class="flex-grow flex flex-col items-center justify-center p-12 text-center bg-slate-50/30">
+        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 mb-6">
+          <mat-icon class="!text-5xl text-blue-500 opacity-20">bar_chart</mat-icon>
+        </div>
+        <h4 class="text-xl font-bold text-slate-800 mb-2">Analyzing Performance Data...</h4>
+        <p class="text-slate-500 max-w-xs mx-auto text-sm leading-relaxed">
+          Our AI is currently processing the latest exam results to generate new institutional benchmarks.
+        </p>
+        <div class="mt-8 w-64 h-2 bg-slate-200 rounded-full overflow-hidden">
+          <div class="h-full bg-blue-500 w-2/3 animate-pulse rounded-full"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+      <div class="p-6 border-b border-slate-50">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-slate-100 rounded-lg">
+            <mat-icon class="text-slate-600">calendar_today</mat-icon>
+          </div>
+          <h3 class="text-lg font-extrabold text-slate-800 m-0">Campus Calendar</h3>
+        </div>
+      </div>
+      
+      <div class="p-6 flex-grow space-y-6">
+        <div class="flex items-start gap-4 p-4 hover:bg-slate-50 rounded-2xl transition-colors cursor-pointer border border-transparent hover:border-slate-100">
+          <div class="flex flex-col items-center justify-center w-14 h-14 bg-blue-50 rounded-2xl border border-blue-100 text-blue-600 shrink-0">
+            <span class="text-lg font-black leading-none">12</span>
+            <span class="text-[10px] font-bold uppercase mt-1">May</span>
+          </div>
+          <div>
+            <h5 class="text-sm font-bold text-slate-800 m-0">Faculty Research Forum</h5>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Main Hall • 09:30 AM</p>
+            <div class="flex mt-2 -space-x-2">
+              <div class="w-6 h-6 rounded-full border-2 border-white bg-slate-200"></div>
+              <div class="w-6 h-6 rounded-full border-2 border-white bg-blue-200"></div>
+              <div class="w-6 h-6 rounded-full border-2 border-white bg-indigo-200 flex items-center justify-center text-[8px] font-bold">+5</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-4 hover:bg-slate-50 rounded-2xl transition-colors cursor-pointer border border-transparent hover:border-slate-100">
+          <div class="flex flex-col items-center justify-center w-14 h-14 bg-amber-50 rounded-2xl border border-amber-100 text-amber-600 shrink-0">
+            <span class="text-lg font-black leading-none">15</span>
+            <span class="text-[10px] font-bold uppercase mt-1">May</span>
+          </div>
+          <div>
+            <h5 class="text-sm font-bold text-slate-800 m-0">Mid-Semester Submissions</h5>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Digital Portal • 11:59 PM</p>
+            <span class="inline-flex items-center mt-2 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 uppercase tracking-widest">Urgent</span>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-4 hover:bg-slate-50 rounded-2xl transition-colors cursor-pointer border border-transparent hover:border-slate-100">
+          <div class="flex flex-col items-center justify-center w-14 h-14 bg-rose-50 rounded-2xl border border-rose-100 text-rose-600 shrink-0">
+            <span class="text-lg font-black leading-none">22</span>
+            <span class="text-[10px] font-bold uppercase mt-1">May</span>
+          </div>
+          <div>
+            <h5 class="text-sm font-bold text-slate-800 m-0">Sports Complex Inauguration</h5>
+            <p class="text-xs text-slate-500 mt-1 font-medium">East Wing • 02:00 PM</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="p-6 mt-auto">
+        <button mat-flat-button color="primary" class="w-full !rounded-xl font-bold h-11">View Full Calendar</button>
+      </div>
+    </div>
+  </div>
+</div>

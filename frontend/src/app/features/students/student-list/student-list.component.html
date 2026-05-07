@@ -1,0 +1,134 @@
+<div class="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+  <!-- Page Header -->
+  <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-black text-slate-900 tracking-tight">Student Management</h1>
+      <p class="text-slate-500 font-medium mt-1">Manage admissions, view student records, and analyze performance.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button mat-flat-button color="primary" class="!rounded-xl font-bold h-11 px-6 shadow-lg shadow-blue-500/20" (click)="openDialog()">
+        <mat-icon class="mr-2">person_add</mat-icon> New Admission
+      </button>
+    </div>
+  </header>
+
+  <!-- Content Card -->
+  <div class="bg-white rounded-[32px] shadow-xl border border-slate-100 overflow-hidden relative">
+    <!-- Table Header / Search Area -->
+    <div class="p-6 bg-slate-50/50 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="relative w-full md:w-96">
+        <mat-icon class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</mat-icon>
+        <input type="text" 
+               placeholder="Search by name, roll number, or course..." 
+               class="w-full bg-white border border-slate-200 rounded-2xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-sm font-medium text-slate-700">
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 px-3 py-1 bg-blue-50 rounded-full border border-blue-100">
+          <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+          <span class="text-[10px] font-bold text-blue-700 uppercase tracking-widest">{{ students.length }} Students Total</span>
+        </div>
+        <button mat-icon-button class="text-slate-400">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div *ngIf="loading" class="absolute inset-0 bg-white/70 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center gap-4">
+      <mat-progress-spinner mode="indeterminate" color="primary" [diameter]="48"></mat-progress-spinner>
+      <span class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] animate-pulse">Syncing Database...</span>
+    </div>
+
+    <!-- Table Area -->
+    <div class="overflow-x-auto custom-scrollbar">
+      <table mat-table [dataSource]="students" class="w-full">
+        <!-- Roll Number Column -->
+        <ng-container matColumnDef="rollNumber">
+          <th mat-header-cell *matHeaderCellDef> Roll No </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-black tracking-tight border border-slate-200">
+              {{element.rollNumber}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef> Full Name </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-[10px] font-bold text-white shadow-sm">
+                {{ element.fullName.charAt(0) }}
+              </div>
+              <span class="font-bold text-slate-700">{{element.fullName}}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Course Column -->
+        <ng-container matColumnDef="course">
+          <th mat-header-cell *matHeaderCellDef> Course </th>
+          <td mat-cell *matCellDef="let element"> 
+            <span class="font-semibold text-slate-600">{{element.course}}</span>
+          </td>
+        </ng-container>
+
+        <!-- Semester Column -->
+        <ng-container matColumnDef="semester">
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Sem </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-50 border border-slate-100 text-xs font-bold text-slate-500">
+              {{element.semester}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Department Column -->
+        <ng-container matColumnDef="department">
+          <th mat-header-cell *matHeaderCellDef> Department </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-bold border border-indigo-100">
+              {{element.departmentName}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="text-right pr-6"> Actions </th>
+          <td mat-cell *matCellDef="let element" class="text-right pr-6">
+            <div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button mat-icon-button class="!text-blue-500 hover:bg-blue-50" (click)="openAnalysis(element)" matTooltip="AI Insights">
+                <mat-icon>auto_awesome</mat-icon>
+              </button>
+              <button mat-icon-button class="!text-slate-400 hover:bg-slate-100" (click)="openDialog(element)" matTooltip="Edit Record">
+                <mat-icon>edit_note</mat-icon>
+              </button>
+              <button mat-icon-button class="!text-rose-400 hover:bg-rose-50" (click)="deleteStudent(element.id!)" matTooltip="Delete Record">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="group"></tr>
+      </table>
+      
+      <!-- Empty State -->
+      <div *ngIf="students.length === 0 && !loading" class="p-20 text-center bg-slate-50/30">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 mx-auto mb-6">
+          <mat-icon class="!text-4xl text-slate-200">person_off</mat-icon>
+        </div>
+        <h4 class="text-xl font-bold text-slate-800 mb-2">No students enrolled yet</h4>
+        <p class="text-slate-500 max-w-xs mx-auto text-sm leading-relaxed mb-8">
+          Start your campus operations by enrolling the first batch of students.
+        </p>
+        <button mat-flat-button color="primary" class="!rounded-xl font-bold h-11 px-8" (click)="openDialog()">
+          Add First Student
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

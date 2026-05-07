@@ -1,0 +1,248 @@
+<div class="mx-auto w-full max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+  <section class="rounded-[32px] bg-gradient-to-r from-indigo-950 via-blue-900 to-slate-900 text-white p-8 md:p-10 shadow-2xl shadow-indigo-950/20">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div class="max-w-3xl space-y-4">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.25em] text-blue-100">
+          Student Portal
+        </span>
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight">Register once, then track attendance and exam results here.</h1>
+        <p class="text-blue-100/80 text-base md:text-lg max-w-2xl">
+          Students can submit their personal details, save their registration, and immediately view their academic progress from a single portal.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-3 lg:justify-end lg:self-center">
+        <a routerLink="/auth/login" class="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors">
+          Admin Login
+        </a>
+        <button type="button" class="rounded-2xl bg-white px-5 py-3 text-sm font-bold text-slate-900 hover:bg-blue-50 transition-colors" (click)="clearSavedSession()">
+          Reset Portal
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,1.55fr)] items-start">
+    <section class="rounded-[28px] bg-white border border-slate-200 shadow-lg shadow-slate-200/60 p-6 md:p-8">
+      <div class="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900">Student Registration</h2>
+          <p class="text-sm text-slate-500 mt-1">Fill in the form below to create your student profile.</p>
+        </div>
+        <span class="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-blue-700">Required</span>
+      </div>
+
+      <div *ngIf="message" class="mb-5 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        {{ message }}
+      </div>
+
+      <div *ngIf="error" class="mb-5 rounded-2xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+        {{ error }}
+      </div>
+
+      <form [formGroup]="studentForm" (ngSubmit)="registerStudent()" class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <label class="space-y-2 md:col-span-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Full Name</span>
+          <input formControlName="fullName" type="text" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="Enter full name" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Email</span>
+          <input formControlName="email" type="email" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="student@campuscore.com" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Roll Number</span>
+          <input formControlName="rollNumber" type="text" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="e.g. CSE-042" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Course</span>
+          <input formControlName="course" type="text" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="B.Tech / BCA / MBA" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Semester</span>
+          <input formControlName="semester" type="number" min="1" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Academic Year</span>
+          <input formControlName="academicYear" type="text" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="2025-2026" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Division</span>
+          <input formControlName="division" type="text" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="A / B / C" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Department</span>
+          <select formControlName="departmentId" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
+            <option value="">Select department</option>
+            <option *ngFor="let department of departments" [value]="department.id">
+              {{ department.name }} ({{ department.code }})
+            </option>
+          </select>
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Guardian Name</span>
+          <input formControlName="guardianName" type="text" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="Optional" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Guardian Phone</span>
+          <input formControlName="guardianPhone" type="text" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="Optional" />
+        </label>
+
+        <label class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Date of Birth</span>
+          <input formControlName="dateOfBirth" type="date" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+        </label>
+
+        <label class="space-y-2 md:col-span-2">
+          <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Address</span>
+          <textarea formControlName="address" rows="3" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" placeholder="Optional address"></textarea>
+        </label>
+
+        <button type="submit" [disabled]="submitting" class="md:col-span-2 mt-2 rounded-2xl bg-blue-600 px-5 py-4 text-sm font-bold text-white shadow-lg shadow-blue-600/25 hover:bg-blue-700 transition-colors disabled:opacity-60">
+          {{ submitting ? 'Submitting...' : 'Complete Registration' }}
+        </button>
+      </form>
+    </section>
+
+    <section class="space-y-6">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <article class="rounded-[24px] bg-white border border-slate-200 p-6 shadow-md shadow-slate-200/50">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Student Status</p>
+          <p class="mt-3 text-2xl font-black text-slate-900">{{ currentStudent ? 'Registered' : 'Pending' }}</p>
+          <p class="text-sm text-slate-500 mt-1">{{ currentStudent?.fullName || 'Complete the registration form first.' }}</p>
+        </article>
+
+        <article class="rounded-[24px] bg-white border border-slate-200 p-6 shadow-md shadow-slate-200/50">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Attendance Rate</p>
+          <p class="mt-3 text-2xl font-black text-slate-900">{{ attendanceRate }}%</p>
+          <p class="text-sm text-slate-500 mt-1">{{ attendancePresentCount }} present, {{ attendanceAbsentCount }} absent</p>
+        </article>
+
+        <article class="rounded-[24px] bg-white border border-slate-200 p-6 shadow-md shadow-slate-200/50">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Average Marks</p>
+          <p class="mt-3 text-2xl font-black text-slate-900">{{ averageMarks }}%</p>
+          <p class="text-sm text-slate-500 mt-1">Across all available exam results</p>
+        </article>
+      </div>
+
+      <article class="rounded-[28px] bg-white border border-slate-200 shadow-lg shadow-slate-200/60 p-6 md:p-8">
+        <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 class="text-2xl font-black text-slate-900">My Portal</h2>
+            <p class="text-sm text-slate-500 mt-1">Use your saved student profile to review attendance and exam results.</p>
+          </div>
+
+          <button *ngIf="currentStudent?.id" type="button" (click)="loadStudentPortal(currentStudent!.id!)" class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors">
+            Refresh Data
+          </button>
+        </div>
+
+        <div *ngIf="loading" class="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-6 text-slate-500">
+          Loading student records...
+        </div>
+
+        <div *ngIf="currentStudent && !loading" class="space-y-8">
+          <div class="rounded-3xl bg-slate-50 border border-slate-200 p-5 md:p-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Registered Student</p>
+                <h3 class="mt-2 text-2xl font-black text-slate-900">{{ currentStudent.fullName }}</h3>
+                <p class="text-sm text-slate-500 mt-1">Roll No. {{ currentStudent.rollNumber }} · {{ currentStudent.course }} · Semester {{ currentStudent.semester }}</p>
+              </div>
+              <div class="rounded-2xl bg-white px-4 py-3 border border-slate-200">
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Portal ID</p>
+                <p class="text-sm font-semibold text-slate-900 mt-1 break-all">{{ currentStudent.id }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-black text-slate-900">Attendance</h3>
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{{ attendanceRecords.length }} records</span>
+              </div>
+
+              <div *ngIf="attendanceRecords.length; else attendanceEmpty" class="overflow-hidden rounded-3xl border border-slate-200 bg-white">
+                <table class="min-w-full divide-y divide-slate-200 text-sm">
+                  <thead class="bg-slate-50 text-left text-[11px] uppercase tracking-[0.2em] text-slate-500">
+                    <tr>
+                      <th class="px-4 py-3">Date</th>
+                      <th class="px-4 py-3">Subject</th>
+                      <th class="px-4 py-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr *ngFor="let attendance of attendanceRecords">
+                      <td class="px-4 py-3 text-slate-700">{{ attendance.date }}</td>
+                      <td class="px-4 py-3 font-medium text-slate-900">{{ attendance.subjectName || attendance.subjectId }}</td>
+                      <td class="px-4 py-3">
+                        <span class="inline-flex rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em]" [ngClass]="attendance.status === 'PRESENT' || attendance.status === 'LATE' || attendance.status === 'EXCUSED' ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'">
+                          {{ attendance.status }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <ng-template #attendanceEmpty>
+                <div class="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-6 text-slate-500">
+                  No attendance records are available yet.
+                </div>
+              </ng-template>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-black text-slate-900">Exam Results</h3>
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{{ examResults.length }} records</span>
+              </div>
+
+              <div *ngIf="examResults.length; else resultEmpty" class="overflow-hidden rounded-3xl border border-slate-200 bg-white">
+                <table class="min-w-full divide-y divide-slate-200 text-sm">
+                  <thead class="bg-slate-50 text-left text-[11px] uppercase tracking-[0.2em] text-slate-500">
+                    <tr>
+                      <th class="px-4 py-3">Subject</th>
+                      <th class="px-4 py-3">Marks</th>
+                      <th class="px-4 py-3">Grade</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr *ngFor="let result of examResults">
+                      <td class="px-4 py-3 font-medium text-slate-900">{{ result.subjectName || result.subjectId }}</td>
+                      <td class="px-4 py-3 text-slate-700">{{ result.marksObtained }} / {{ result.totalMarks }}</td>
+                      <td class="px-4 py-3">
+                        <span class="inline-flex rounded-full bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-blue-700">
+                          {{ result.grade }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <ng-template #resultEmpty>
+                <div class="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-6 text-slate-500">
+                  No exam results are available yet.
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!currentStudent && !loading" class="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-8 text-slate-500">
+          Register first to unlock your personal portal and see attendance plus exam results after your records are available.
+        </div>
+      </article>
+    </section>
+  </div>
+</div>

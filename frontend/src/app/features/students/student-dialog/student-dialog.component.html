@@ -1,0 +1,172 @@
+<div class="p-0 overflow-hidden rounded-[32px] bg-white border border-slate-200 shadow-2xl">
+  <!-- Premium Header -->
+  <header class="bg-slate-900 p-8 flex justify-between items-center text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/10 rounded-full -ml-16 -mb-16 blur-2xl"></div>
+    
+    <div class="relative z-10">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+        <span class="text-[10px] font-black text-blue-300 uppercase tracking-[0.3em]">Institutional Registrar</span>
+      </div>
+      <h2 class="text-3xl font-black tracking-tight leading-none">
+        {{ data.id ? 'Modify Student Record' : 'Student Admission' }}
+      </h2>
+    </div>
+    <div class="relative z-10 w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md">
+      <mat-icon class="!text-3xl !w-8 !h-8 text-blue-400">how_to_reg</mat-icon>
+    </div>
+  </header>
+
+  <mat-dialog-content class="!p-8 !m-0 custom-scrollbar max-h-[75vh]">
+    <form [formGroup]="form" class="space-y-12">
+      
+      <!-- Section 1: Academic Profile -->
+      <section class="space-y-8">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-sm">
+            <mat-icon class="!text-xl">school</mat-icon>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest leading-none">Academic Profile</h3>
+            <p class="text-[10px] text-slate-400 font-bold mt-1 uppercase tracking-wider">Enrollment & Institutional Context</p>
+          </div>
+          <div class="flex-1 h-[1px] bg-slate-100"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <!-- Roll Number -->
+          <div class="md:col-span-4">
+            <mat-form-field appearance="outline" class="w-full h-20">
+              <mat-label>Institutional ID / Roll No</mat-label>
+              <input matInput formControlName="rollNumber" placeholder="e.g. 24CS102">
+              <mat-icon matSuffix class="text-slate-300">badge</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Department -->
+          <div class="md:col-span-8">
+            <mat-form-field appearance="outline" class="w-full h-20">
+              <mat-label>Primary Department</mat-label>
+              <mat-select formControlName="departmentId">
+                <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                  {{dept.name}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix class="text-slate-300">account_balance</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Course -->
+          <div class="md:col-span-12">
+            <mat-form-field appearance="outline" class="w-full h-20">
+              <mat-label>Course / Program of Study</mat-label>
+              <input matInput formControlName="course" placeholder="e.g. B.Tech in Computer Science & Engineering">
+              <mat-icon matSuffix class="text-slate-300">book</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Semester -->
+          <div class="md:col-span-4">
+            <mat-form-field appearance="outline" class="w-full h-20">
+              <mat-label>Semester</mat-label>
+              <input matInput type="number" formControlName="semester">
+              <mat-icon matSuffix class="text-slate-300">layers</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Academic Year -->
+          <div class="md:col-span-4">
+            <mat-form-field appearance="outline" class="w-full h-20">
+              <mat-label>Academic Year</mat-label>
+              <input matInput formControlName="academicYear" placeholder="2024-2025">
+              <mat-icon matSuffix class="text-slate-300">event_note</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Division -->
+          <div class="md:col-span-4">
+            <mat-form-field appearance="outline" class="w-full h-20">
+              <mat-label>Division / Section</mat-label>
+              <input matInput formControlName="division" placeholder="e.g. A">
+              <mat-icon matSuffix class="text-slate-300">groups</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Personal Dossier -->
+      <section class="space-y-8">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100 shadow-sm">
+            <mat-icon class="!text-xl">person_outline</mat-icon>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest leading-none">Personal Dossier</h3>
+            <p class="text-[10px] text-slate-400 font-bold mt-1 uppercase tracking-wider">Identity & Contact Details</p>
+          </div>
+          <div class="flex-1 h-[1px] bg-slate-100"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <mat-form-field appearance="outline" class="w-full h-20">
+            <mat-label>Full Legal Name</mat-label>
+            <input matInput formControlName="fullName" placeholder="As per official documents">
+            <mat-icon matSuffix class="text-slate-300">face</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full h-20">
+            <mat-label>Primary Email Address</mat-label>
+            <input matInput formControlName="email" placeholder="student.name@campuscore.edu">
+            <mat-icon matSuffix class="text-slate-300">alternate_email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full h-20">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="dobPicker" formControlName="dateOfBirth">
+            <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dobPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full h-20">
+            <mat-label>Guardian / Parent Name</mat-label>
+            <input matInput formControlName="guardianName">
+            <mat-icon matSuffix class="text-slate-300">family_restroom</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full h-20">
+            <mat-label>Guardian Contact Number</mat-label>
+            <input matInput formControlName="guardianPhone">
+            <mat-icon matSuffix class="text-slate-300">phone</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Permanent Residential Address</mat-label>
+          <textarea matInput formControlName="address" rows="3" placeholder="Full residential details..."></textarea>
+          <mat-icon matSuffix class="text-slate-300">home</mat-icon>
+        </mat-form-field>
+      </section>
+    </form>
+  </mat-dialog-content>
+
+  <!-- Premium Footer -->
+  <mat-dialog-actions class="!p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
+    <button mat-button 
+            class="!rounded-2xl font-bold h-14 px-8 text-slate-500 hover:bg-slate-200 transition-all active:scale-95" 
+            (click)="onCancel()">
+      Cancel
+    </button>
+    <button mat-flat-button 
+            color="primary" 
+            class="!rounded-2xl font-black h-14 px-12 shadow-2xl shadow-blue-500/40 transition-all active:scale-95 disabled:opacity-50" 
+            [disabled]="form.invalid" 
+            (click)="onSave()">
+      <div class="flex items-center gap-2">
+        <span>{{ data.id ? 'Commit Updates' : 'Finalize Admission' }}</span>
+        <mat-icon class="!text-lg !w-5 !h-5">chevron_right</mat-icon>
+      </div>
+    </button>
+  </mat-dialog-actions>
+</div>
+

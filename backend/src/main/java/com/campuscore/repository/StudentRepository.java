@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface StudentRepository extends JpaRepository<Student, UUID> {
     Optional<Student> findByRollNumber(String rollNumber);
     Optional<Student> findByUserId(UUID userId);
+    java.util.List<Student> findByDepartmentIdAndSemester(UUID departmentId, Integer semester);
 }

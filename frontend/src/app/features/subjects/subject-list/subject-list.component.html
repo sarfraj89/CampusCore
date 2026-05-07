@@ -1,0 +1,86 @@
+<div class="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+  <!-- Page Header -->
+  <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-black text-slate-900 tracking-tight">Academic Subjects</h1>
+      <p class="text-slate-500 font-medium mt-1">Manage curriculum, credit systems, and subject distributions.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button mat-flat-button color="primary" class="!rounded-xl font-bold h-11 px-6 shadow-lg shadow-blue-500/20" (click)="openDialog()">
+        <mat-icon class="mr-2">library_add</mat-icon> Add Subject
+      </button>
+    </div>
+  </header>
+
+  <!-- Content Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div *ngFor="let subject of subjects" 
+         class="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative group">
+      
+      <div class="flex justify-between items-start mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm">
+          <mat-icon>auto_stories</mat-icon>
+        </div>
+        <div class="flex flex-col items-end">
+          <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Credits</span>
+          <span class="text-lg font-black text-slate-700 leading-none">{{ subject.credits }}</span>
+        </div>
+      </div>
+
+      <h3 class="text-lg font-black text-slate-800 mb-1 leading-tight">{{ subject.name }}</h3>
+      <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-4">{{ subject.code }}</p>
+      
+      <div class="space-y-3 mb-6">
+        <div class="flex items-center gap-2">
+          <mat-icon class="!text-xs !w-4 !h-4 text-slate-300">business</mat-icon>
+          <span class="text-xs font-bold text-slate-500">{{ subject.departmentName }}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <mat-icon class="!text-xs !w-4 !h-4 text-slate-300">person</mat-icon>
+          <span class="text-xs font-bold text-slate-500">{{ subject.facultyName || 'No Faculty Assigned' }}</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center pt-4 border-t border-slate-50">
+        <div class="flex gap-1">
+          <button mat-icon-button class="text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors" (click)="openDialog(subject)" matTooltip="Edit Subject">
+            <mat-icon class="!text-lg">edit_note</mat-icon>
+          </button>
+          <button mat-icon-button class="text-slate-300 hover:text-rose-500 hover:bg-rose-50 transition-colors" (click)="deleteSubject(subject.id!)" matTooltip="Delete Subject">
+            <mat-icon class="!text-lg">delete_outline</mat-icon>
+          </button>
+        </div>
+        <span class="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[9px] font-black uppercase tracking-tighter">Theory</span>
+      </div>
+    </div>
+
+    <!-- Add New Placeholder -->
+    <button (click)="openDialog()" 
+            class="bg-slate-50 rounded-[32px] p-6 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400 hover:bg-white hover:border-blue-300 hover:text-blue-500 transition-all group min-h-[240px]">
+      <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm mb-4 group-hover:shadow-md transition-shadow">
+        <mat-icon class="!text-3xl">add</mat-icon>
+      </div>
+      <span class="font-bold uppercase tracking-widest text-[10px]">Add Subject</span>
+    </button>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div *ngIf="loading" class="fixed inset-0 bg-white/70 backdrop-blur-[2px] z-50 flex flex-col items-center justify-center gap-4">
+    <mat-progress-spinner mode="indeterminate" color="primary" [diameter]="48"></mat-progress-spinner>
+    <span class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] animate-pulse">Loading Curriculum...</span>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="subjects.length === 0 && !loading" class="py-20 text-center bg-white rounded-[40px] border border-slate-100 shadow-sm">
+    <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+      <mat-icon class="!text-4xl text-slate-200">menu_book</mat-icon>
+    </div>
+    <h4 class="text-xl font-bold text-slate-800 mb-2">No subjects found</h4>
+    <p class="text-slate-500 max-w-xs mx-auto text-sm leading-relaxed mb-8">
+      Start defining your academic courses by adding subjects and assigning credits.
+    </p>
+    <button mat-flat-button color="primary" class="!rounded-xl font-bold h-11 px-8" (click)="openDialog()">
+      Define First Subject
+    </button>
+  </div>
+</div>

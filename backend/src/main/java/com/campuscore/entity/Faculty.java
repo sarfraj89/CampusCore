@@ -29,6 +29,8 @@ public class Faculty {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    private String designation;
+
     @ManyToMany
     @JoinTable(
         name = "faculty_subjects",

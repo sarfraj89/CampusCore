@@ -1,0 +1,116 @@
+<mat-sidenav-container class="h-screen overflow-hidden">
+  <mat-sidenav mode="side" opened class="w-72 sidebar-gradient border-none">
+    <div class="flex flex-col h-full">
+      <!-- Logo Section -->
+      <div class="p-8 logo-container mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <mat-icon class="text-white">school</mat-icon>
+          </div>
+          <div>
+            <h1 class="text-xl font-extrabold text-white tracking-tight leading-none">CampusCore</h1>
+            <p class="text-[10px] uppercase tracking-widest text-blue-400 font-bold mt-1">ERP System</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="flex-grow overflow-y-auto custom-scrollbar">
+        <nav class="space-y-1">
+          <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidebar-item group">
+            <mat-icon class="text-slate-400 group-hover:text-white">dashboard</mat-icon>
+            <span class="text-slate-300 group-hover:text-white font-medium">Dashboard</span>
+          </a>
+
+          <div class="px-6 py-4">
+            <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Academic</p>
+          </div>
+
+          <a routerLink="/departments" routerLinkActive="active" class="sidebar-item group">
+            <mat-icon class="text-slate-400 group-hover:text-white">business</mat-icon>
+            <span class="text-slate-300 group-hover:text-white font-medium">Departments</span>
+          </a>
+          <a routerLink="/faculty" routerLinkActive="active" class="sidebar-item group">
+            <mat-icon class="text-slate-400 group-hover:text-white">people</mat-icon>
+            <span class="text-slate-300 group-hover:text-white font-medium">Faculty</span>
+          </a>
+          <a routerLink="/students" routerLinkActive="active" class="sidebar-item group">
+            <mat-icon class="text-slate-400 group-hover:text-white">school</mat-icon>
+            <span class="text-slate-300 group-hover:text-white font-medium">Students</span>
+          </a>
+          <a routerLink="/subjects" routerLinkActive="active" class="sidebar-item group">
+            <mat-icon class="text-slate-400 group-hover:text-white">auto_stories</mat-icon>
+            <span class="text-slate-300 group-hover:text-white font-medium">Subjects</span>
+          </a>
+
+          <div class="px-6 py-4">
+            <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Operations</p>
+          </div>
+
+          <a routerLink="/attendance" routerLinkActive="active" class="sidebar-item group">
+            <mat-icon class="text-slate-400 group-hover:text-white">how_to_reg</mat-icon>
+            <span class="text-slate-300 group-hover:text-white font-medium">Attendance</span>
+          </a>
+          <a routerLink="/exam-results" routerLinkActive="active" class="sidebar-item group">
+            <mat-icon class="text-slate-400 group-hover:text-white">grade</mat-icon>
+            <span class="text-slate-300 group-hover:text-white font-medium">Exam Results</span>
+          </a>
+
+          <div class="px-6 py-4">
+            <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Intelligence</p>
+          </div>
+
+          <a routerLink="/ai-chat" routerLinkActive="active" class="sidebar-item group !bg-blue-600/10 border border-blue-500/20 active:!bg-blue-600 active:!border-none">
+            <mat-icon class="text-blue-400">psychology</mat-icon>
+            <span class="text-blue-100 font-semibold">AI Assistant</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Footer User Info -->
+      <div class="p-4 border-t border-slate-800 bg-slate-900/50">
+        <div class="flex items-center gap-3 p-2">
+          <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-300">
+            {{ (authService.currentUser$ | async)?.fullName?.charAt(0) }}
+          </div>
+          <div class="flex-grow min-w-0">
+            <p class="text-xs font-bold text-white truncate">{{ (authService.currentUser$ | async)?.fullName }}</p>
+            <p class="text-[10px] text-slate-500 truncate">{{ (authService.currentUser$ | async)?.role }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="bg-slate-50 flex flex-col h-screen overflow-hidden">
+    <!-- Header -->
+    <header class="header-toolbar h-16 flex items-center justify-between px-8 shrink-0 z-10">
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full border border-slate-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">System Active</span>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-6">
+        <div class="flex flex-col text-right hidden sm:block">
+          <span class="text-xs font-black text-slate-800 leading-none">Management Portal</span>
+          <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Institutional Oversight</span>
+        </div>
+        
+        <div class="h-8 w-[1px] bg-slate-200"></div>
+        
+        <button mat-icon-button class="text-slate-400 hover:text-rose-500 transition-colors" (click)="authService.logout()" matTooltip="Terminate Session">
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+      </div>
+    </header>
+    
+    <!-- Main Content Area -->
+    <main class="main-content-wrapper overflow-y-auto custom-scrollbar">
+      <div class="page-container max-w-[1600px] mx-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

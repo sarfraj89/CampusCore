@@ -1,0 +1,43 @@
+<div class="p-0 overflow-hidden rounded-[32px] w-[450px]">
+  <!-- Dialog Header -->
+  <header class="bg-blue-900 p-8 flex justify-between items-center text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+    <div class="relative z-10">
+      <h2 class="text-2xl font-black tracking-tight leading-none mb-2">
+        {{ data.id ? 'Edit Department' : 'New Department' }}
+      </h2>
+      <p class="text-[10px] font-bold text-blue-300 uppercase tracking-[0.2em]">Organizational Unit</p>
+    </div>
+    <mat-icon class="opacity-20 !text-5xl !w-12 !h-12">account_balance</mat-icon>
+  </header>
+
+  <mat-dialog-content class="!p-8 !m-0">
+    <form [formGroup]="form" class="space-y-6">
+      <div class="space-y-1">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Official Name</label>
+        <mat-form-field appearance="outline" class="w-full no-subscript">
+          <input matInput formControlName="name" placeholder="e.g. Department of Computer Science">
+          <mat-icon matSuffix class="!text-slate-300">corporate_fare</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="space-y-1">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Short Code / Acronym</label>
+        <mat-form-field appearance="outline" class="w-full no-subscript">
+          <input matInput formControlName="code" placeholder="e.g. CS / CSE">
+          <mat-icon matSuffix class="!text-slate-300">tag</mat-icon>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="!p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+    <button mat-button class="!rounded-xl font-bold h-12 px-6 text-slate-500 hover:bg-slate-200 transition-colors" (click)="onCancel()">Cancel</button>
+    <button mat-flat-button color="primary" 
+            class="!rounded-xl font-black h-12 px-10 shadow-xl shadow-blue-500/20" 
+            [disabled]="form.invalid" 
+            (click)="onSave()">
+      {{ data.id ? 'Update Unit' : 'Establish Department' }}
+    </button>
+  </mat-dialog-actions>
+</div>
